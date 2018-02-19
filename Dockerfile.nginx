@@ -1,0 +1,11 @@
+FROM nginx
+USER root
+
+ARG domain
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN sed -i 's/$DOMAIN/'$domain'/g' /etc/nginx/conf.d/default.conf
+
+RUN apt-get update -y && \
+    apt-get install -y python-certbox-nginx -t stretch-backports
