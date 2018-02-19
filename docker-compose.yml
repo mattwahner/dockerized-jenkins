@@ -1,15 +1,13 @@
 version: '2'
 
 services:
-  certbot:
-    image: certbot/certbot
-    # command: certonly --help all
-    command: certonly -n --agree-tos --email $EMAIL --standalone -d $DOMAIN
-    volumes:
-      - certs:/etc/letsencrypt/live/$DOMAIN
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - domain=$DOMAIN
+        - email=$EMAIL
     ports:
+      - "80:80"
       - "443:443"
-      - "83:80"
-
-volumes:
-  certs:
